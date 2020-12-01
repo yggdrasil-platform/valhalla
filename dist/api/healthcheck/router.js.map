@@ -1,0 +1,1 @@
+{"version":3,"file":"router.js","sourceRoot":"","sources":["../../../src/api/healthcheck/router.ts"],"names":[],"mappings":";;;;;AAAA,qCAAiC;AAEjC,eAAe;AACf,8DAAsC;AAKtC,SAAwB,MAAM,CAAC,KAAa,EAAE,OAAsB;IAClE,MAAM,UAAU,GAAe,IAAI,oBAAU,CAAC,OAAO,CAAC,CAAC;IAEvD,OAAO,gBAAM,EAAE,CAAC,GAAG,CAAC,GAAG,EAAE,UAAU,CAAC,GAAG,CAAC,IAAI,CAAC,UAAU,CAAC,CAAC,CAAC;AAC5D,CAAC;AAJD,yBAIC"}
