@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "The accounts service for the Yggdrasil platform",
   "main": "dist/index.js",
-  "license": "See LICESNSE.md",
   "author": {
     "name": "Kieran O'Neill",
     "email": "kieran.oneill@protonmail.com",
@@ -13,6 +12,7 @@
     "type": "git",
     "url": "https://github.com/kieranroneill/valkyrie"
   },
+  "license": "See LICESNSE.md",
   "private": true,
   "engines": {
     "node": ">=12.6.0"
@@ -20,7 +20,7 @@
   "scripts": {
     "lint": "eslint . --ext .ts --ext .js",
     "prettier": "prettier --config .prettierrc --write \"src/**/*.{js,json,ts}\"",
-    "start": "DOTENV_CONFIG_PATH=.env.dev ts-node-dev -r dotenv/config --respawn --transpile-only src/index.ts",
+    "start": "ts-node-dev -r dotenv/config --respawn --transpile-only src/index.ts",
     "test": "./scripts/test.sh"
   },
   "dependencies": {
