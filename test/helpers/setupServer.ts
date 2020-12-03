@@ -5,7 +5,7 @@ export default async function setupServer(): Promise<ExpressServer> {
   const server: ExpressServer = new ExpressServer();
 
   await server.config();
-  server.initRoutes();
+  server.api();
 
   return server;
 }
