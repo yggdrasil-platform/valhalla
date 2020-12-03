@@ -2,7 +2,9 @@
   "compileOnSave": false,
   "compilerOptions": {
     "allowJs": true,
+    "emitDecoratorMetadata": true,
     "esModuleInterop": true,
+    "experimentalDecorators": true,
     "lib": ["es6"],
     "module": "commonjs",
     "moduleResolution": "node",
