@@ -98,9 +98,16 @@ When building the Docker image, we want to inject env vars at build time, as the
 ```bash
 docker build \
 -t kieranroneill/valkyrie \
---build-arg NODE_ENV=production \
---build-arg PORT=3000 \
---build-arg SERVICE_NAME=valkyrie \
+--build-arg db_host=db.valkyrie.yggdrasil.io \
+--build-arg db_name=production \
+--build-arg db_password="password" \
+--build-arg db_port=5432 \
+--build-arg db_user=admin \
+--build-arg encryption_key="super_secret" \
+--build-arg log_level=error \
+--build-arg node_env=production \
+--build-arg port=3000 \
+--build-arg service_name=valkyrie \
 .
 ```
 
