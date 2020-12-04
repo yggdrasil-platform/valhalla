@@ -1,6 +1,6 @@
 # Valkyrie
 
-The accounts service for the Yggdrasil platform.
+The user service for the Yggdrasil platform.
 
 #### Table of contents
 
@@ -56,6 +56,7 @@ Below is a quick outline of the structure of the app:
 
 ### 1. Prerequisites
 
+* Install [NodeJS 15.3.0+](https://nodejs.org/en/download/).
 * Install [Yarn](https://yarnpkg.com/).
 * Install [Docker](https://docs.docker.com/get-docker/).
 * Install [Docker Compose](https://docs.docker.com/compose/install/).
@@ -97,9 +98,9 @@ When building the Docker image, we want to inject env vars at build time, as the
 ```bash
 docker build \
 -t kieranroneill/valkyrie \
---build-arg SERVICE_NAME=valkyrie \
 --build-arg NODE_ENV=production \
 --build-arg PORT=3000 \
+--build-arg SERVICE_NAME=valkyrie \
 .
 ```
 

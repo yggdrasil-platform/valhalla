@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from 'type-graphql';
+import { Authorized, Field, ID, ObjectType } from 'type-graphql';
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -11,6 +11,7 @@ export default class User extends BaseEntity {
   @Field(() => String)
   @Column({
     nullable: false,
+    unique: true,
   })
   email: string;
 
@@ -25,4 +26,18 @@ export default class User extends BaseEntity {
     nullable: false,
   })
   lastName: string;
+
+  // @Authorized()
+  @Field(() => String)
+  @Column({
+    nullable: false,
+  })
+  password: string;
+
+  // @Field(() => String)
+  // @Column({
+  //   nullable: false,
+  //   unique: true,
+  // })
+  // username: string;
 }
