@@ -6,14 +6,20 @@ import { CipherGCM, createCipheriv, createHash, randomBytes } from 'crypto';
  * @param {string} key the key to use with the cipher.
  * @returns {string} an encrypted secret in the format of "iv:ciphertext:tag"
  */
-export default function encryptSecret(input: string, key: string): string {
-  const iv: Buffer = randomBytes(16);
-  const encodedKey: Buffer = createHash('sha256').update(key).digest(); // Convert to 32 byte hash.
-  const cipher: CipherGCM = createCipheriv('aes-256-gcm', encodedKey, iv);
-  const encrypted: Buffer = Buffer.concat([
-    cipher.update(input),
-    cipher.final(),
-  ]);
+export default function encryptSecret(input: string, key?: string): string {
+  let iv: Buffer;
+  let encodedKey: Buffer;
+  let cipher: CipherGCM;
+  let encrypted: Buffer;
+
+  if (!key) {
+    throw new Error('failed to encrypt secret: key is undefined');
+  }
+
+  iv = randomBytes(16);
+  encodedKey = createHash('sha256').update(key).digest(); // Convert to 32 byte hash.
+  cipher = createCipheriv('aes-256-gcm', encodedKey, iv);
+  encrypted = Buffer.concat([cipher.update(input), cipher.final()]);
 
   return `${iv.toString('hex')}:${encrypted.toString(
     'hex'
