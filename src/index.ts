@@ -5,7 +5,7 @@ import { ExpressServer } from './server';
 
   server.config();
   await server.database();
-  await server.api();
+  server.api();
   await server.graphql();
   await server.listen(parseInt(process.env.PORT || '3000', 10));
 })();

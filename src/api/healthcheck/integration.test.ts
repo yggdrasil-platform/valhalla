@@ -1,5 +1,6 @@
 import { Application } from 'express';
 import { agent } from 'supertest';
+import { Connection } from 'typeorm';
 
 // Constants.
 import { Endpoints } from '../../constants';
@@ -9,17 +10,23 @@ import { setupServer } from '../../../test/helpers';
 
 interface Scope {
   app: Application;
+  connection: Connection;
 }
 
 describe(Endpoints.HEALTHCHECK, () => {
   let scope: Scope;
 
   beforeEach(async () => {
-    const { app } = await setupServer();
+    const { app, connection } = await setupServer();
 
     scope = {
       app,
+      connection,
     };
+  });
+
+  afterEach(async () => {
+    await scope.connection.close();
   });
 
   describe(`GET ${Endpoints.HEALTHCHECK}`, () => {
