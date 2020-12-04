@@ -1,16 +1,22 @@
 import { Arg, Mutation, Query, Resolver } from 'type-graphql';
 
 // Inputs.
-import { UserInput } from '../inputs';
+import { CreateUserInput } from '../inputs';
 
 // Models.
 import { User } from '../models';
 
+// Utils.
+import { encryptSecret } from '../utils';
+
 @Resolver()
 export default class UserResolver {
   @Mutation(() => User)
-  async createUser(@Arg('input') input: UserInput): Promise<User> {
-    const model: User = User.create(input);
+  async createUser(@Arg('input') input: CreateUserInput): Promise<User> {
+    const model: User = User.create({
+      ...input,
+      password: encryptSecret(input.password, process.env.ENCRYPTION_KEY),
+    });
 
     return await model.save();
   }
