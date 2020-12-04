@@ -26,13 +26,27 @@ RUN ./scripts/build.sh
 ############################
 FROM node:14.15.1-alpine
 
-ARG SERVICE_NAME
-ARG NODE_ENV
-ARG PORT
+ARG db_host
+ARG db_name
+ARG db_password
+ARG db_port
+ARG db_user
+ARG encryption_key
+ARG log_level
+ARG node_env
+ARG port
+ARG service_name
 
-ENV SERVICE_NAME=$SERVICE_NAME
-ENV NODE_ENV=$NODE_ENV
-ENV PORT=$PORT
+ENV DB_HOST=$db_host
+ENV DB_NAME=$db_name
+ENV DB_PASSWORD=$db_password
+ENV DB_PORT=$db_port
+ENV DB_USER=$db_user
+ENV ENCRYPTION_KEY=$encryption_key
+ENV LOG_LEVEL=$log_level
+ENV NODE_ENV=$node_env
+ENV PORT=$port
+ENV SERVICE_NAME=$service_name
 
 # Get distro depencdencies
 RUN apk add --no-cache --upgrade bash
