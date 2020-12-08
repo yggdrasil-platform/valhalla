@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "email": "thor@yggdrasil.co",
+    "firstName": "Thor",
+    "lastName": "Odinson",
+    "password": "cfd97b6df93b04470faceec2825c0f80:b9d96721:f85071e6824f6c0f6e1028dd14caf237",
+    "username": "thor.odinson"
+  },
+  {
+    "id": 2,
+    "email": "loki@yggdrasil.co",
+    "firstName": "Loki",
+    "lastName": "Odinson",
+    "password": "cfd97b6df93b04470faceec2825c0f80:b9d96721:f85071e6824f6c0f6e1028dd14caf237",
+    "username": "loki.odinson"
+  },
+  {
+    "id": 3,
+    "email": "thor1@yggdrasil.co",
+    "firstName": "Thor",
+    "lastName": "Odinson",
+    "password": "cfd97b6df93b04470faceec2825c0f80:b9d96721:f85071e6824f6c0f6e1028dd14caf237",
+    "username": "thor.odinson1"
+  }
+]
