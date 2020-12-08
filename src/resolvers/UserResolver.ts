@@ -7,15 +7,16 @@ import { CreateUserInput } from '../inputs';
 import { User } from '../models';
 
 // Utils.
-import { encryptSecret } from '../utils';
+import { createUsername, encryptSecret } from '../utils';
 
 @Resolver()
 export default class UserResolver {
   @Mutation(() => User)
   async createUser(@Arg('input') input: CreateUserInput): Promise<User> {
-    const model: User = User.create({
+    const model: User = User.create<User>({
       ...input,
       password: encryptSecret(input.password, process.env.ENCRYPTION_KEY),
+      username: await createUsername(input.firstName, input.lastName),
     });
 
     return await model.save();

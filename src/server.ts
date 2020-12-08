@@ -42,45 +42,6 @@ export class ExpressServer {
   }
 
   /**
-   * Configures the application.
-   */
-  public config(): void {
-    // Setup middleware.
-    this.app.use(
-      morgan('combined', {
-        stream: {
-          write: (message: string) => {
-            this.logger.info(message);
-          },
-        },
-      })
-    );
-    this.app.use(json());
-    this.app.use(urlencoded({ extended: true }));
-
-    this.app.enable('case sensitive routing');
-    this.app.enable('strict routing');
-  }
-
-  /**
-   * Convenience function that simply runs Express.listen() and wraps it in a promise with logging.
-   * @param {string | number} port
-   */
-  public listen(port: number): Promise<void> {
-    return new Promise((resolve: () => void) => {
-      createServer(this.app).listen(port, () => {
-        this.logger.info(
-          `🚀 blast off in ${
-            process.env.NODE_ENV
-          } @: ${hostname()} on port: ${port}}`
-        );
-
-        resolve();
-      });
-    });
-  }
-
-  /**
    * Sets up all the api routes.
    */
   public api(): void {
@@ -110,8 +71,47 @@ export class ExpressServer {
     this.app.use(errorHandler(this.logger));
   }
 
+  /**
+   * Configures the application.
+   */
+  public config(): void {
+    // Setup middleware.
+    this.app.use(
+      morgan('combined', {
+        stream: {
+          write: (message: string) => {
+            this.logger.info(message);
+          },
+        },
+      })
+    );
+    this.app.use(json());
+    this.app.use(urlencoded({ extended: true }));
+
+    this.app.enable('case sensitive routing');
+    this.app.enable('strict routing');
+  }
+
   public async database(): Promise<void> {
     this.connection = await createConnection(databaseConfig);
+  }
+
+  /**
+   * Convenience function that simply runs Express.listen() and wraps it in a promise with logging.
+   * @param {string | number} port
+   */
+  public listen(port: number): Promise<void> {
+    return new Promise((resolve: () => void) => {
+      createServer(this.app).listen(port, () => {
+        this.logger.info(
+          `🚀 blast off in ${
+            process.env.NODE_ENV
+          } @: ${hostname()} on port: ${port}}`
+        );
+
+        resolve();
+      });
+    });
   }
 
   public async graphql(): Promise<void> {
