@@ -4,20 +4,14 @@ import { Equal, Raw } from 'typeorm';
 import { User } from '../models';
 
 /**
- * Creates a username based on the firstname and lastname concatenation. It checks
- * the database for existing username types and bumps to the latest username index, eg.
- * "firstname.lastname69"
- * @param {string} firstName the first name of the user
- * @param {string} lastName the last name of the user
- * @returns {string} the concatenation and index of the user's names and an index.
+ * Checks if the provided username can be created. If the username exists, it appends
+ * an index to it.
+ * @param {string} username the username to create
+ * @returns {string} the provided username, or the username with an index.
  */
 export default async function createUsername(
-  firstName: string,
-  lastName: string
+  username: string
 ): Promise<string> {
-  const username: string = `${firstName
-    .replace(/[^a-zA-Z0-9]+/g, '')
-    .toLowerCase()}.${lastName.replace(/[^a-zA-Z0-9]+/g, '').toLowerCase()}`;
   let latestIndex: number | undefined;
   let matches: User[] = await User.find({
     username: Equal(username),
