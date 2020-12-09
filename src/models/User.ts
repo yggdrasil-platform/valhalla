@@ -1,12 +1,24 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
-@Entity()
+// Models.
+import Role from './Role';
+
 @ObjectType()
+@Entity()
 export default class User extends BaseEntity {
-  @Field(() => ID)
-  @PrimaryGeneratedColumn()
-  id: number;
+  @Field(() => Date)
+  @Column({
+    nullable: false,
+  })
+  createdAt: Date;
 
   @Field(() => String)
   @Column({
@@ -21,6 +33,10 @@ export default class User extends BaseEntity {
   })
   firstName: string;
 
+  @Field(() => ID)
+  @PrimaryGeneratedColumn()
+  id: number;
+
   @Field(() => String)
   @Column({
     nullable: false,
@@ -32,10 +48,21 @@ export default class User extends BaseEntity {
   })
   password: string;
 
+  @Field(() => [Role])
+  @ManyToMany(() => Role)
+  @JoinTable()
+  roles: Role[];
+
   @Field(() => String)
   @Column({
     nullable: false,
     unique: true,
   })
   username: string;
+
+  @Field(() => Date)
+  @Column({
+    nullable: false,
+  })
+  updatedAt: Date;
 }

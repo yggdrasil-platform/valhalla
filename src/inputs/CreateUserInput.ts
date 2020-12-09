@@ -5,15 +5,15 @@ import { User } from '../models';
 
 @InputType()
 export default class CreateUserInput implements Partial<User> {
-  @Field()
+  @Field(() => String)
   email: string;
 
-  @Field()
+  @Field(() => String)
   firstName: string;
 
-  @Field()
+  @Field(() => String)
   lastName: string;
 
-  @Field()
+  @Field(() => String)
   password: string;
 }

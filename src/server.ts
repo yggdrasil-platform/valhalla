@@ -19,6 +19,7 @@ import { Endpoints } from './constants';
 import { errorHandler } from './middlewares';
 
 // Modules.
+import { authChecker, context } from './modules/graphql';
 import { createLogger } from './modules/logger';
 
 // Resolvers.
@@ -26,6 +27,9 @@ import { UserResolver } from './resolvers';
 
 // Routers.
 import healthcheckRouter from './api/healthcheck/router';
+
+// Seeds.
+import seeds from './seeds';
 
 // Types.
 import { RouterOptions } from './types';
@@ -94,6 +98,34 @@ export class ExpressServer {
 
   public async database(): Promise<void> {
     this.connection = await createConnection(databaseConfig);
+
+    for (const seed of seeds) {
+      await seed.run(this.connection);
+    }
+  }
+
+  public async graphql(): Promise<void> {
+    let error: Error;
+
+    if (!this.connection || !this.connection.isConnected) {
+      error = new Error('database not connected');
+
+      this.logger.error(error.message);
+
+      throw error;
+    }
+
+    this.graphqlServer = new ApolloServer({
+      context,
+      schema: await buildSchema({
+        authChecker,
+        resolvers: [UserResolver],
+      }),
+    });
+
+    this.graphqlServer.applyMiddleware({
+      app: this.app,
+    });
   }
 
   /**
@@ -111,28 +143,6 @@ export class ExpressServer {
 
         resolve();
       });
-    });
-  }
-
-  public async graphql(): Promise<void> {
-    let error: Error;
-
-    if (!this.connection || !this.connection.isConnected) {
-      error = new Error('database not connected');
-
-      this.logger.error(error.message);
-
-      throw error;
-    }
-
-    this.graphqlServer = new ApolloServer({
-      schema: await buildSchema({
-        resolvers: [UserResolver],
-      }),
-    });
-
-    this.graphqlServer.applyMiddleware({
-      app: this.app,
     });
   }
 }
