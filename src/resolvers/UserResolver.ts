@@ -4,7 +4,7 @@ import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import { Roles } from '../constants';
 
 // Inputs.
-import { CreateUserInput } from '../inputs';
+import { CreateUserInput, UpdateUserInput } from '../inputs';
 
 // Models.
 import { CheckUsername, User } from '../models';
@@ -60,12 +60,45 @@ export default class UserResolver {
     return ctx.user;
   }
 
+  @Authorized()
+  @Mutation(() => User, {
+    nullable: true,
+  })
+  async update(
+    @Arg('input') input: UpdateUserInput,
+    @Ctx() ctx: Context
+  ): Promise<User | undefined> {
+    const { roles, ...otherInput } = input;
+
+    if (ctx.user) {
+      await User.update(
+        {
+          id: ctx.user.id,
+        },
+        {
+          ...otherInput,
+          updatedAt: new Date(),
+        }
+      );
+
+      return await User.findOne({
+        relations: ['roles'],
+        where: {
+          id: ctx.user.id,
+        },
+      });
+    }
+
+    return undefined;
+  }
+
   @Authorized([Roles.ADMIN])
   @Query(() => User, {
     nullable: true,
   })
   async user(@Arg('id') id: number): Promise<User | undefined> {
     return await User.findOne({
+      relations: ['roles'],
       where: {
         id,
       },
