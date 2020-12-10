@@ -1,6 +1,7 @@
-import { Field, ID, ObjectType } from 'type-graphql';
+import { Directive, Field, ID, ObjectType } from 'type-graphql';
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
+@Directive('@key(fields: "id")')
 @ObjectType()
 @Entity()
 export default class Role extends BaseEntity {
