@@ -9,10 +9,8 @@ export default function createLogger(name?: string, logLevel?: string): Logger {
     exitOnError: false,
     transports: [
       new transports.Console({
-        colorize: true,
         handleExceptions: true,
         level: logLevel,
-        prettyPrint: true,
         silent: !logLevel,
       }),
     ],
