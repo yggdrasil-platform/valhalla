@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from 'type-graphql';
+import { Directive, Field, ID, ObjectType } from 'type-graphql';
 import {
   BaseEntity,
   Column,
@@ -11,6 +11,7 @@ import {
 // Models.
 import Role from './Role';
 
+@Directive('@key(fields: "id")')
 @ObjectType()
 @Entity()
 export default class User extends BaseEntity {

@@ -5,7 +5,6 @@ import Express, { Application } from 'express';
 import { createServer } from 'http';
 import morgan from 'morgan';
 import { hostname } from 'os';
-import { buildSchema } from 'type-graphql';
 import { Container } from 'typedi';
 import { Connection, createConnection } from 'typeorm';
 import { Logger } from 'winston';
@@ -19,8 +18,11 @@ import { Endpoints } from './constants';
 // Middlewares.
 import { errorHandler } from './middlewares';
 
+// Models.
+import { User } from './models';
+
 // Modules.
-import { authChecker, context } from './modules/graphql';
+import { authChecker, buildFederatedSchema, context } from './modules/graphql';
 import { createLogger } from './modules/logger';
 
 // Resolvers.
@@ -118,9 +120,11 @@ export class ExpressServer {
 
     this.graphqlServer = new ApolloServer({
       context,
-      schema: await buildSchema({
+      playground: true,
+      schema: await buildFederatedSchema({
         authChecker,
         container: Container,
+        orphanedTypes: [User],
         resolvers: [UserResolver],
       }),
     });
