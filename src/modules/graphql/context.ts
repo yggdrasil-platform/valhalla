@@ -1,7 +1,7 @@
 import { Response } from 'express';
 
-// Models.
-import { User } from '../../models';
+// Services.
+import { UserService } from '../../services';
 
 // Types.
 import { Context, Request } from '../../types';
@@ -12,13 +12,10 @@ interface ContextParams {
 }
 
 const context: (context: ContextParams) => Promise<Context> = async () => {
+  const userService: UserService = new UserService();
+
   return {
-    user: await User.findOne({
-      relations: ['roles'],
-      where: {
-        id: 1,
-      },
-    }),
+    user: await userService.getById(1),
   };
 };
 

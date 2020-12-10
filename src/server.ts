@@ -6,6 +6,7 @@ import { createServer } from 'http';
 import morgan from 'morgan';
 import { hostname } from 'os';
 import { buildSchema } from 'type-graphql';
+import { Container } from 'typedi';
 import { Connection, createConnection } from 'typeorm';
 import { Logger } from 'winston';
 
@@ -119,6 +120,7 @@ export class ExpressServer {
       context,
       schema: await buildSchema({
         authChecker,
+        container: Container,
         resolvers: [UserResolver],
       }),
     });

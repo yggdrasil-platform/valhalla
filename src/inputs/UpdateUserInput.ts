@@ -20,11 +20,6 @@ export default class UpdateUserInput implements Partial<User> {
   })
   lastName?: string;
 
-  @Field(() => [String], {
-    nullable: true,
-  })
-  roles?: string[];
-
   @Field(() => String, {
     nullable: true,
   })
