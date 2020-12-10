@@ -2,7 +2,7 @@ import { resolve } from 'path';
 import { ConnectionOptions } from 'typeorm';
 
 const config: ConnectionOptions = {
-  database: process.env.NODE_ENV,
+  database: process.env.DB_NAME,
   entities: [resolve(__dirname, '..', 'models', '*.{ts,js}')],
   host: process.env.DB_HOST,
   password: process.env.DB_PASSWORD,
