@@ -56,7 +56,6 @@ export default class UserService {
    */
   public async getById(id: number): Promise<User | undefined> {
     return await User.findOne({
-      relations: ['roles'],
       where: {
         id,
       },
