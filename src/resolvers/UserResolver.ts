@@ -1,4 +1,15 @@
-import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
+import {
+  Arg,
+  Args,
+  Authorized,
+  Ctx,
+  Mutation,
+  Query,
+  Resolver,
+} from 'type-graphql';
+
+// Args.
+import { AddOrRemoveRolesArgs } from '../args';
 
 // Constants.
 import { Roles } from '../constants';
@@ -24,6 +35,32 @@ export default class UserResolver {
     private readonly roleService: RoleService,
     private readonly userService: UserService
   ) {}
+
+  @Authorized([Roles.ADMIN])
+  @Mutation(() => User, {
+    nullable: true,
+  })
+  public async addRoles(
+    @Args() { id, roles }: AddOrRemoveRolesArgs
+  ): Promise<User | undefined> {
+    const newRoles: Role[] = await this.roleService.getRolesByNames(roles);
+    const user: User | undefined = await this.userService.getById(id);
+
+    if (user) {
+      user.roles = [...newRoles, ...user.roles].reduce<Role[]>(
+        (acc, currentValue) =>
+          !acc.find((value) => value.id === currentValue.id)
+            ? [...acc, currentValue]
+            : acc,
+        []
+      );
+      user.updatedAt = new Date();
+
+      return await user.save();
+    }
+
+    return undefined;
+  }
 
   @Authorized([Roles.ADMIN])
   @Mutation(() => User)
@@ -66,6 +103,28 @@ export default class UserResolver {
     return ctx.user;
   }
 
+  @Authorized([Roles.ADMIN])
+  @Mutation(() => User, {
+    nullable: true,
+  })
+  public async removeRoles(
+    @Args() { id, roles }: AddOrRemoveRolesArgs
+  ): Promise<User | undefined> {
+    const removeRoles: Role[] = await this.roleService.getRolesByNames(roles);
+    const user: User | undefined = await this.userService.getById(id);
+
+    if (user) {
+      user.roles = user.roles.filter(
+        (role) => !removeRoles.some((value) => value.id === role.id)
+      );
+      user.updatedAt = new Date();
+
+      return await user.save();
+    }
+
+    return undefined;
+  }
+
   @Authorized()
   @Mutation(() => User, {
     nullable: true,
@@ -86,40 +145,6 @@ export default class UserResolver {
       );
 
       return await this.userService.getById(ctx.user.id);
-    }
-
-    return undefined;
-  }
-
-  @Authorized([Roles.ADMIN])
-  @Mutation(() => User, {
-    nullable: true,
-  })
-  public async addRoles(
-    @Arg('id') id: number,
-    @Arg('roles') roles: string[]
-  ): Promise<User | undefined> {
-    const user: User | undefined = await this.userService.getById(id);
-    const newRoles: Role[] = await this.roleService.getRolesByNames(roles);
-
-    if (user) {
-      await User.update(
-        {
-          id,
-        },
-        {
-          updatedAt: new Date(),
-          roles: [...newRoles, ...user.roles].reduce<Role[]>(
-            (acc, currentValue) =>
-              !acc.find((value) => value.id === currentValue.id)
-                ? [...acc, currentValue]
-                : acc,
-            []
-          ),
-        }
-      );
-
-      return await this.userService.getById(id);
     }
 
     return undefined;

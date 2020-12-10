@@ -49,7 +49,10 @@ export default class User extends BaseEntity {
   password: string;
 
   @Field(() => [Role])
-  @ManyToMany(() => Role)
+  @ManyToMany(() => Role, {
+    cascade: true,
+    eager: true,
+  })
   @JoinTable()
   roles: Role[];
 
