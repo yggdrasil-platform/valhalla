@@ -12,7 +12,7 @@ const authChecker: AuthChecker<Context> = (
   // Check if the user roles overlap the auth roles.
   if (user) {
     return (
-      user.roles < 1 ||
+      user.roles.length < 1 ||
       user.roles.some((value) => roles.indexOf(value.name) > -1)
     );
   }
