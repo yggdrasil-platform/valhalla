@@ -25,7 +25,7 @@ function main {
 
   # Runs postgres Docker image in the background.
   container_id=$(docker run \
-   --name valkyrie_db_test \
+   --name valhalla_db_test \
    -e POSTGRES_DB="${DB_NAME}" \
    -e POSTGRES_PASSWORD="${DB_PASSWORD}" \
    -e POSTGRES_USER="${DB_USER}" \

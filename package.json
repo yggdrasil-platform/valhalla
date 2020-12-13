@@ -1,5 +1,5 @@
 {
-  "name": "valkyrie",
+  "name": "valhalla",
   "version": "1.0.0",
   "description": "The accounts service for the Yggdrasil platform",
   "main": "dist/index.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kieranroneill/valkyrie"
+    "url": "https://github.com/kieranroneill/valhalla"
   },
   "license": "See LICENSE.md",
   "private": true,

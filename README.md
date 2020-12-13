@@ -1,4 +1,4 @@
-# Valkyrie
+# Valhalla
 
 The user service for the Yggdrasil platform.
 
@@ -97,8 +97,8 @@ This will build and run a Postgres docker image and run the tests against it.
 When building the Docker image, we want to inject env vars at build time, as the [`Dockerfile`](./Dockerfile) injects the build args as env vars into the container.
 ```bash
 docker build \
--t kieranroneill/valkyrie \
---build-arg db_host=db.valkyrie.yggdrasil.io \
+-t kieranroneill/valhalla \
+--build-arg db_host=db.valhalla.yggdrasil.io \
 --build-arg db_name=production \
 --build-arg db_password="password" \
 --build-arg db_port=5432 \
@@ -107,7 +107,7 @@ docker build \
 --build-arg log_level=error \
 --build-arg node_env=production \
 --build-arg port=3000 \
---build-arg service_name=valkyrie \
+--build-arg service_name=valhalla \
 .
 ```
 
@@ -115,8 +115,8 @@ docker build \
 
 ```bash
 docker run \
---name valkyrie \
+--name valhalla \
 -it \
 -p 1337:${PORT} \
-kieranroneill/valkyrie:latest
+kieranroneill/valhalla:latest
 ```
