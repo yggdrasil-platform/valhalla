@@ -26,9 +26,6 @@ import { RoleService, UserService } from '../services';
 // Types.
 import { Context } from '../types';
 
-// Utils.
-import { encryptSecret } from '../utils';
-
 @Resolver()
 export default class UserResolver {
   constructor(
@@ -73,7 +70,6 @@ export default class UserResolver {
     const model: User = User.create<User>({
       ...input,
       createdAt: new Date(),
-      password: encryptSecret(input.password, process.env.ENCRYPTION_KEY),
       updatedAt: new Date(),
       username: await this.userService.createUsername(username),
     });

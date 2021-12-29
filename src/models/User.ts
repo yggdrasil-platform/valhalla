@@ -15,11 +15,9 @@ import Role from './Role';
 @ObjectType()
 @Entity()
 export default class User extends BaseEntity {
-  @Field(() => Date)
-  @Column({
-    nullable: false,
-  })
-  createdAt: Date;
+  @Field(() => ID)
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Field(() => String)
   @Column({
@@ -31,23 +29,21 @@ export default class User extends BaseEntity {
   @Field(() => String)
   @Column({
     nullable: false,
+    unique: true,
+  })
+  username: string;
+
+  @Field(() => String)
+  @Column({
+    nullable: false,
   })
   firstName: string;
-
-  @Field(() => ID)
-  @PrimaryGeneratedColumn()
-  id: number;
 
   @Field(() => String)
   @Column({
     nullable: false,
   })
   lastName: string;
-
-  @Column({
-    nullable: false,
-  })
-  password: string;
 
   @Field(() => [Role])
   @ManyToMany(() => Role, {
@@ -57,12 +53,11 @@ export default class User extends BaseEntity {
   @JoinTable()
   roles: Role[];
 
-  @Field(() => String)
+  @Field(() => Date)
   @Column({
     nullable: false,
-    unique: true,
   })
-  username: string;
+  createdAt: Date;
 
   @Field(() => Date)
   @Column({
